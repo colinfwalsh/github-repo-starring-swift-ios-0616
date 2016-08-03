@@ -27,5 +27,24 @@ class ReposDataStore {
             completion()
         }
     }
+    
+    func toggleStarStatusForRepository(repository: GithubRepository, completion:(Bool) -> ()) {
+        
+        GithubAPIClient.checkIfRepositoryIsStarred(repository.fullName, completion: {(starred) in
+            if starred == true {
+                GithubAPIClient.unstarRepository(repository.fullName, completion: {
+                    print("Unstarring Repository")
+                    completion(true)
+                })
+            } else {
+                GithubAPIClient.starRepository(repository.fullName, completion: {
+                    print("Starring Repository")
+                    completion(false)
+                })
+            }
+        })
+    }
+    
+  
 
 }
